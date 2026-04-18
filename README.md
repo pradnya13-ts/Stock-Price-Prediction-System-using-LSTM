@@ -1,128 +1,249 @@
-📈 Stock Price Prediction System using LSTM (Flask + Deep Learning)
+<div align="center">
 
-This project is an AI-powered stock market prediction system built using LSTM (Long Short-Term Memory) neural networks.
-It predicts future stock prices based on historical data and visualizes performance trends with moving averages and prediction charts.
-The app is built with Flask, features a web interface, and integrates Yahoo Finance for live stock data.
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0b3d1e,50:1a7a3c,100:2ecc71&height=220&section=header&text=Stock%20Price%20Predictor&fontSize=46&fontColor=ffffff&animation=fadeIn&fontAlignY=38&desc=LSTM%20Deep%20Learning%20%2B%20Flask%20Web%20App&descAlignY=58&descSize=17&descColor=a8f5c2" width="100%"/>
 
-✨ Features
+<img src="https://media.giphy.com/media/JtBZm3Getg3dqxK0zP/giphy.gif" width="280"/>
 
-💹 Deep Learning Model (LSTM): Predicts stock closing prices using historical data.
+### 💹 Predicting Stock Closing Prices with LSTM Neural Networks and Live Yahoo Finance Data
 
-📊 Dynamic Charts: Visualizes trends with Exponential Moving Averages (20, 50, 100, 200 days).
+<br/>
 
-📈 Prediction vs Actual Graph: Compares model performance visually.
+![Python](https://img.shields.io/badge/Python-3.x-blue?style=for-the-badge&logo=python)
+![TensorFlow](https://img.shields.io/badge/TensorFlow-Keras-orange?style=for-the-badge&logo=tensorflow)
+![Flask](https://img.shields.io/badge/Flask-Web%20App-black?style=for-the-badge&logo=flask)
+![Yahoo Finance](https://img.shields.io/badge/Data-Yahoo%20Finance-purple?style=for-the-badge)
+![Bootstrap](https://img.shields.io/badge/Frontend-Bootstrap-blueviolet?style=for-the-badge&logo=bootstrap)
 
-🧮 Statistical Summary: Generates key descriptive statistics for the stock data.
+<br/>
 
-📥 Dataset Download: Allows users to download the processed dataset as CSV.
+*An AI-powered stock market prediction system — enter any ticker, get LSTM predictions, EMA charts, and downloadable data instantly.*
 
-⚡ Web Interface: Simple and interactive Flask web app for prediction and visualization.
+</div>
 
-🧠 Tech Stack
-Component	Technology
-Programming Language	Python 3
-Web Framework	Flask
-Deep Learning	Keras / TensorFlow
-Data Source	Yahoo Finance (via yfinance)
-Data Processing	NumPy, Pandas, Scikit-learn
-Visualization	Matplotlib
-Frontend	HTML, CSS (Bootstrap templates)
-🧩 Project Structure
+---
+
+## 📌 What Does This Project Do?
+
+<img src="https://media.giphy.com/media/3oKIPEqDGUULpEU0aQ/giphy.gif" width="180" align="right"/>
+
+This project combines **deep learning** and **web development** into a live stock market forecasting tool. It:
+
+- Fetches **live historical stock data** from Yahoo Finance
+- Applies an **LSTM neural network** trained on 100-day sequences to predict future closing prices
+- Generates **dynamic charts** — EMA trend lines and Predicted vs Actual comparisons
+- Serves everything through a clean **Flask web interface**
+
+```python
+app = {
+    "model":      "Sequential LSTM (100-step input window)",
+    "data_source": "Yahoo Finance via yfinance",
+    "framework":  "Flask + Keras / TensorFlow",
+    "output":     ["EMA charts", "Prediction chart", "CSV download"],
+    "examples":   ["AAPL", "TSLA", "RELIANCE.NS", "GOOGL"]
+}
+```
+
+---
+
+## ✨ Features
+
+| Feature | Description |
+|---------|-------------|
+| 💹 LSTM Prediction | Predicts next-day closing prices using 100-day historical sequences |
+| 📊 EMA Charts | Exponential Moving Averages for 20, 50, 100, and 200 days |
+| 📈 Prediction vs Actual | Visual comparison of model output vs real stock prices |
+| 🧮 Statistical Summary | Descriptive statistics (mean, std, min, max) for selected stock |
+| 📥 CSV Download | Download the processed dataset directly from the web UI |
+| ⚡ Live Data | Fetches real-time data via Yahoo Finance on every request |
+
+---
+
+## 🗂️ Repository Structure
+
+```
 📦 Stock-Prediction-App
-├── app.py                        # Flask app (main entry point)
-├── stock_dl_model.h5             # Pre-trained LSTM model
-├── static/                       # Folder for saved plots and downloadable CSVs
-│   ├── ema_20_50.png
-│   ├── ema_100_200.png
-│   ├── stock_prediction.png
-│   └── *.csv
-├── templates/                    # HTML templates
-│   └── index.html
-└── requirements.txt              # Python dependencies
+ ┣ 🐍 app.py                       — Flask app (main entry point)
+ ┣ 🤖 stock_dl_model.h5            — Pre-trained LSTM model
+ ┣ 📁 static/                      — Auto-generated plots and CSVs
+ ┃   ┣ 📈 ema_20_50.png            — Short-term EMA chart
+ ┃   ┣ 📉 ema_100_200.png          — Long-term EMA chart
+ ┃   ┣ 🔮 stock_prediction.png     — Prediction vs Actual chart
+ ┃   ┗ 📊 *.csv                    — Downloadable stock datasets
+ ┣ 📁 templates/
+ ┃   ┗ 🌐 index.html               — Web UI template
+ ┗ 📋 requirements.txt             — Python dependencies
+```
 
-🚀 How It Works
+---
 
-User enters a stock ticker symbol (e.g., AAPL, TSLA, RELIANCE.NS, etc.).
+## 🧠 Model Overview
 
-The app fetches historical stock data from Yahoo Finance.
+<div align="center">
 
-It processes and scales the data, then uses the LSTM model to predict future closing prices.
+```
+                    ┌──────────────────────────┐
+                    │  Input: 100 past closing  │
+                    │        prices             │
+                    └────────────┬─────────────┘
+                                 │
+                    ┌────────────▼─────────────┐
+                    │     LSTM Layer(s)         │
+                    │  (learns temporal trends) │
+                    └────────────┬─────────────┘
+                                 │
+                    ┌────────────▼─────────────┐
+                    │      Dense + ReLU         │
+                    └────────────┬─────────────┘
+                                 │
+                    ┌────────────▼─────────────┐
+                    │  Output: Next-day price   │
+                    │     (Linear activation)   │
+                    └──────────────────────────┘
+```
 
-It generates:
+</div>
 
-EMA trend charts (20–50, 100–200 days)
+| Hyperparameter | Value |
+|----------------|-------|
+| Model Type | Sequential LSTM |
+| Input Window | 100 past closing prices |
+| Output | 1 (next-day predicted price) |
+| Loss Function | Mean Squared Error (MSE) |
+| Optimizer | Adam |
+| Activation | ReLU / Linear |
+| Train / Test Split | 70% / 30% |
 
-Prediction vs Original trend chart
+---
 
-The user can view descriptive statistics and download the dataset.
+## 🚀 Getting Started
 
-📊 Example Output
-Chart	Description
-📈 EMA 20 & 50 Chart	Short-term moving average trend
-📉 EMA 100 & 200 Chart	Long-term moving average trend
-🔮 Prediction vs Actual	LSTM-predicted vs real stock prices
-⚙️ Setup Instructions
-1. Clone the Repository
-git clone https://github.com/yourusername/Stock-Price-Prediction-LSTM.git
+### 1. Clone the repository
+```bash
+git clone https://github.com/pradnya13-ts/Stock-Price-Prediction-LSTM.git
 cd Stock-Price-Prediction-LSTM
+```
 
-2. Create Virtual Environment (Optional)
+### 2. Create a virtual environment (recommended)
+```bash
 python -m venv venv
-venv\Scripts\activate  # On Windows
-# OR
-source venv/bin/activate  # On macOS/Linux
 
-3. Install Dependencies
+# Windows
+venv\Scripts\activate
+
+# macOS / Linux
+source venv/bin/activate
+```
+
+### 3. Install dependencies
+```bash
 pip install -r requirements.txt
+```
 
-4. Run the Flask App
+### 4. Run the Flask app
+```bash
 python app.py
+```
 
+Then open your browser at 👉 **http://127.0.0.1:5000**
 
-The app will open in your browser at 👉 http://127.0.0.1:5000
+---
 
-🧠 Model Overview (LSTM)
+## 🔄 How It Works
 
-Model Type: Sequential LSTM
+```
+User enters ticker (e.g. AAPL)
+       ↓
+Fetch historical data via Yahoo Finance
+       ↓
+Scale data with MinMaxScaler
+       ↓
+Create 100-step input sequences
+       ↓
+LSTM model predicts closing prices
+       ↓
+Inverse transform predictions → real MW values
+       ↓
+Generate EMA charts + Prediction vs Actual chart
+       ↓
+Serve results in Flask web UI + CSV download
+```
 
-Input: 100 past closing prices
+---
 
-Output: Next-day predicted price
+## 📊 Example Output
 
-Loss Function: Mean Squared Error (MSE)
+| Chart | Description |
+|-------|-------------|
+| 📈 EMA 20 and 50 | Short-term momentum and trend direction |
+| 📉 EMA 100 and 200 | Long-term trend — bull/bear market signals |
+| 🔮 Prediction vs Actual | LSTM-predicted vs real closing prices |
+| 📊 Stats Table | Mean, std deviation, min, max for the stock |
 
-Optimizer: Adam
+### Example tickers you can try
 
-Activation Function: ReLU / Linear
+```
+AAPL        → Apple Inc.
+TSLA        → Tesla Inc.
+GOOGL       → Alphabet Inc.
+RELIANCE.NS → Reliance Industries (NSE)
+MSFT        → Microsoft Corp.
+```
 
-Trained on 70% of the dataset, tested on 30%.
+---
 
-🧩 Example Usage
-Input	Output
-Stock Symbol: AAPL	Generates charts and dataset for Apple stock
-Stock Symbol: RELIANCE.NS	Predicts and visualizes Reliance Industries stock prices
-📁 Example File Outputs
+## 🧩 Tech Stack
 
-static/ema_20_50.png → Short-term EMA chart
+<div align="center">
 
-static/ema_100_200.png → Long-term EMA chart
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![TensorFlow](https://img.shields.io/badge/TensorFlow-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white)
+![Keras](https://img.shields.io/badge/Keras-D00000?style=for-the-badge&logo=keras&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
+![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white)
+![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)
+![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white)
+![Matplotlib](https://img.shields.io/badge/Matplotlib-11557c?style=for-the-badge)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white)
 
-static/stock_prediction.png → Prediction vs Actual trend
+</div>
 
-static/<stock>_dataset.csv → Downloadable dataset
+| Component | Technology |
+|-----------|------------|
+| Language | Python 3 |
+| Web Framework | Flask |
+| Deep Learning | Keras / TensorFlow |
+| Data Source | Yahoo Finance (yfinance) |
+| Data Processing | NumPy, Pandas, Scikit-learn |
+| Visualization | Matplotlib |
+| Frontend | HTML, CSS, Bootstrap |
 
-🔮 Future Enhancements
+---
 
-🧾 Add LSTM retraining option from UI.
+## 🔮 Future Enhancements
 
-📆 Predict multiple days ahead (multi-step forecasting).
+- [ ] Add LSTM retraining option directly from the UI
+- [ ] Multi-step forecasting (predict 7 or 30 days ahead)
+- [ ] Integrate real-time stock price streaming
+- [ ] Add sentiment analysis from financial news
+- [ ] Deploy on Render / AWS / Streamlit Cloud for public access
 
-📈 Integrate real-time stock streaming.
+---
 
-🌐 Deploy on Render / AWS / Streamlit for online access.
+## 🏆 Credits
 
-🏆 Credits
+<div align="center">
 
-Developed by Pradnya Chandrakant Bhakare
+Developed by **Pradnya Chandrakant Bhakare**
+MSc AI and ML in Science · Queen Mary University of London
+
 Powered by Python, Flask, and Keras LSTM Neural Networks
 
+</div>
+
+---
+
+<div align="center">
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:2ecc71,50:1a7a3c,100:0b3d1e&height=120&section=footer" width="100%"/>
+
+</div>
